@@ -1,16 +1,97 @@
 ---
-title: "R Notebook"
+title: "Pre-process MSUPRP sample data for BATools"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+# Information about the dataset
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+The data comes from https://github.com/steibelj/gwaR, an example dataset for gwas study for MSUPRP dataset. The complete dataset can be also found at https://github.com/steibelj/GWA_growth.
+
+The dataset comes as `gpData` from the `synbreed` R package.
+
+This example will demonstrate how to create pedigree based relationship matrix and adaptive window based LD from the dataset.
+
+Finally, we'll create the data file for BATools.
+
+### 0. Before you start
+Make sure you have the following R package installed: `dplyr`,`MCMCglmm`, `Matrix`
+
+
+### 1. Explore the data 
 
 ```{r}
 load("MSUPRP_sample.RData")
+class(MSUPRP_sample)
+str(MSUPRP_sample)
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+### 2. Merge phenotype and covar to a dataframe
+Commonly, using dataframe or datatable to manage all phenotypes are easier. So we'll merge the two together
+```{r}
+library(dplyr)
+tmp<-data.frame(MSUPRP_sample$pheno)
+tmp$id<-rownames(tmp)
+colnames(tmp)=c("ph_24h"," temp_24h","driploss","id")
+pheno<-left_join(tmp,MSUPRP_sample$covar,by="id")
+head(pheno)
+```
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
+
+### 3. Check genotype matrix
+```{r}
+geno<-MSUPRP_sample$geno
+dim(geno)
+geno[1:5,1:10]
+```
+
+In BATools, the `id` will be matched with the `colname` of the genotype matrix, make sure you have genotype for all the individuals unless you're using single-step approach.
+
+```{r}
+genof0<-geno[which(as.numeric(rownames(geno))>6000),]
+dim(genof0)
+maf.f0<-colMeans(genof0,na.rm = T)/2
+summary(maf.f0)
+```
+
+
+### 4. Create pedigree based additive genomic relationship matrix
+```{r}
+ped<-MSUPRP_sample$pedigree
+head(ped)
+```
+
+```{r}
+#source("tools.R")
+library(pedigree)
+colnames(ped)=c("id","father","mother","generation","sex")
+ped0=Pedigree(ped,unknown = 0)
+Ainv<-MCMCglmm::inverseA(pedigree=ped0[,1:3],nodes="ALL")$Ainv
+A=Matrix::solve(Ainv,sparse=TRUE,tol=1e-16)
+A[which(A<1e-6)]=0
+A
+```
+
+
+### Building map with adaptive window based on LD
+```{r}
+map<-MSUPRP_sample$map
+head(map)
+```
+
+Install `BALD` package from http://www.math-evry.cnrs.fr/logiciels/bald. On windows, `RTools` need to be pre-installed https://cran.r-project.org/bin/windows/Rtools/ and add your `RTools` path to enviroment variable. But linux or Mac are recommended since `BALD` is not available at CRAN. 
+
+Installing these packages can be complicated, if you have any question, send me an email at chench57{at}msu.edu
+
+```{r}
+source("https://bioconductor.org/biocLite.R")
+biocLite("chopsticks")
+biocLite("snpStats")
+biocLite("ROC")
+install.packages(c("LDheatmap","quadrupen", "ROC", "grplasso","snpStats"))
+system("wget http://www.math-evry.cnrs.fr/_media/logiciels/bald_0.2.1.tar.gz")
+system("R CMD INSTALL bald_0.2.1.tar.gz")
+```
+```{r}
+
+```
+
