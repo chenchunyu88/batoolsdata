@@ -328,8 +328,8 @@ head(ped)</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3NvdXJjZShcInRvb2xzLlJcIilcbmxpYnJhcnkocGVkaWdyZWUpXG5jb2xuYW1lcyhwZWQpPWMoXCJpZFwiLFwiZmF0aGVyXCIsXCJtb3RoZXJcIixcImdlbmVyYXRpb25cIixcInNleFwiKVxucGVkMD1QZWRpZ3JlZShwZWQsdW5rbm93biA9IDApXG5BaW52PC1NQ01DZ2xtbTo6aW52ZXJzZUEocGVkaWdyZWU9cGVkMFssMTozXSxub2Rlcz1cIkFMTFwiKSRBaW52XG5gYGAifQ== -->
-<pre class="r"><code>#source(&quot;tools.R&quot;)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwidG9vbHMuUlwiKVxubGlicmFyeShwZWRpZ3JlZSlcbmNvbG5hbWVzKHBlZCk9YyhcImlkXCIsXCJmYXRoZXJcIixcIm1vdGhlclwiLFwiZ2VuZXJhdGlvblwiLFwic2V4XCIpXG5wZWQwPVBlZGlncmVlKHBlZCx1bmtub3duID0gMClcbkFpbnY8LU1DTUNnbG1tOjppbnZlcnNlQShwZWRpZ3JlZT1wZWQwWywxOjNdLG5vZGVzPVwiQUxMXCIpJEFpbnZcbmBgYCJ9 -->
+<pre class="r"><code>source(&quot;tools.R&quot;)
 library(pedigree)
 colnames(ped)=c(&quot;id&quot;,&quot;father&quot;,&quot;mother&quot;,&quot;generation&quot;,&quot;sex&quot;)
 ped0=Pedigree(ped,unknown = 0)
@@ -338,80 +338,91 @@ Ainv&lt;-MCMCglmm::inverseA(pedigree=ped0[,1:3],nodes=&quot;ALL&quot;)$Ainv</cod
 <!-- rnb-output-begin eyJkYXRhIjoidGhlIGNvbmRpdGlvbiBoYXMgbGVuZ3RoID4gMSBhbmQgb25seSB0aGUgZmlyc3QgZWxlbWVudCB3aWxsIGJlIHVzZWRcbiJ9 -->
 <pre><code>the condition has length &gt; 1 and only the first element will be used</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQT1NYXRyaXg6OnNvbHZlKEFpbnYsc3BhcnNlPVRSVUUsdG9sPTFlLTE2KVxuQVt3aGljaChBPDFlLTYpXT0wXG5BXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQT1NYXRyaXg6OnNvbHZlKEFpbnYsc3BhcnNlPVRSVUUsdG9sPTFlLTE2KVxuQVt3aGljaChBPDFlLTYpXT0wXG5jb2xuYW1lcyhBKT1yb3duYW1lcyhBKT1wZWQwJGlkXG5BXG5gYGAifQ== -->
 <pre class="r"><code>A=Matrix::solve(Ainv,sparse=TRUE,tol=1e-16)
 A[which(A&lt;1e-6)]=0
+colnames(A)=rownames(A)=ped0$id
 A</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiMjUzIHggMjUzIHNwYXJzZSBNYXRyaXggb2YgY2xhc3MgXCJkZ0NNYXRyaXhcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG4gWzEsXSAxIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgMC41IC4gICAuICAgLiAgIC4gICAuICAgLiAgIDAuNSAuICBcbiBbMixdIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gIFxuIFszLF0gLiAuIDEgLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG4gWzQsXSAuIC4gLiAxIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcbiBbNSxdIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gIFxuIFs2LF0gLiAuIC4gLiAuIDEgLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIDAuNSAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG4gWzcsXSAuIC4gLiAuIC4gLiAxIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAgIDAuNSAuICAgMC41IC4gICAwLjUgLiAgIDAuNSAwLjUgMC41IDAuNSAwLjVcbiBbOCxdIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIDAuNSAuICAgLiAgIC4gICAwLjUgLiAgIC4gICAuICAgLiAgIC4gIFxuIFs5LF0gLiAuIC4gLiAuIC4gLiAuIDEgLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIC4gICAwLjUgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG5bMTAsXSAuIC4gLiAuIC4gLiAuIC4gLiAxIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcblsxMSxdIC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gIFxuWzEyLF0gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIDEgLiAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIC4gICAwLjUgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG5bMTMsXSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAxIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcblsxNCxdIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuICAgMC41IC4gICAuICAgLiAgIDAuNSAuICAgLiAgIDAuNSAwLjUgLiAgIC4gIFxuWzE1LF0gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIDEgLiAuIC4gLiAuIC4gICAuICAgMC41IC4gICAuICAgLiAgIDAuNSAuICAgLiAgIC4gICAuICAgLiAgXG4gICAgICAgICAgICAgICAgICAgIFxuIFsxLF0gMC41IDAuNSAuLi4uLi5cbiBbMixdIC4gICAuICAgLi4uLi4uXG4gWzMsXSAuICAgLiAgIC4uLi4uLlxuIFs0LF0gLiAgIC4gICAuLi4uLi5cbiBbNSxdIC4gICAuICAgLi4uLi4uXG4gWzYsXSAuICAgLiAgIC4uLi4uLlxuIFs3LF0gMC41IDAuNSAuLi4uLi5cbiBbOCxdIC4gICAuICAgLi4uLi4uXG4gWzksXSAuICAgLiAgIC4uLi4uLlxuWzEwLF0gLiAgIC4gICAuLi4uLi5cblsxMSxdIC4gICAuICAgLi4uLi4uXG5bMTIsXSAuICAgLiAgIC4uLi4uLlxuWzEzLF0gLiAgIC4gICAuLi4uLi5cblsxNCxdIC4gICAuICAgLi4uLi4uXG5bMTUsXSAuICAgLiAgIC4uLi4uLlxuXG4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uXG4gLi4uLi4uLi5zdXBwcmVzc2luZyBjb2x1bW5zIGFuZCByb3dzIGluIHNob3coKTsgbWF5YmUgYWRqdXN0ICdvcHRpb25zKG1heC5wcmludD0gKiwgd2lkdGggPSAqKSdcbiAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi5cblxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuWzI0MCxdIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuWzI0MSxdIC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAwLjI1IC4gICAgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuWzI0MixdIC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAwLjI1IC4gICAgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuWzI0MyxdIC4gLiAuICAgIC4gLiAwLjI1IC4gICAgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIDAuMjUgLiAuICAgIC4gICAgLiAwLjI1MCAuICAgICAwLjEyNSAuICAgIFxuWzI0NCxdIC4gLiAuICAgIC4gLiAwLjI1IC4gICAgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIDAuMjUgLiAuICAgIC4gICAgLiAwLjI1MCAuICAgICAwLjEyNSAuICAgIFxuWzI0NSxdIC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuWzI0NixdIC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuWzI0NyxdIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuWzI0OCxdIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuWzI0OSxdIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuWzI1MCxdIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuWzI1MSxdIC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAwLjI1IC4gICAgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuWzI1MixdIC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAwLjI1IC4gICAgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuWzI1MyxdIC4gLiAuICAgIC4gLiAuICAgIC4gICAgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAuICAgIC4gICAgLiAuICAgICAuICAgICAuICAgICAuICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXG5bMjQwLF0gLiAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAuLi4uLi5cblsyNDEsXSAuIDAuMTI1IC4gICAgIDAuMjUwIDAuMTI1IDAuMTI1IDAuMTI1IDAuMjUwIDAuMTI1IDAuMTI1IC4uLi4uLlxuWzI0MixdIC4gMC4xMjUgLiAgICAgMC4yNTAgMC4xMjUgMC4xMjUgMC4xMjUgMC4yNTAgMC4xMjUgMC4xMjUgLi4uLi4uXG5bMjQzLF0gLiAuICAgICAwLjEyNSAuICAgICAuICAgICAuICAgICAuICAgICAuICAgICAuICAgICAuICAgICAuLi4uLi5cblsyNDQsXSAuIC4gICAgIDAuMTI1IC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4uLi4uLlxuWzI0NSxdIC4gMC4xMjUgLiAgICAgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgLi4uLi4uXG5bMjQ2LF0gLiAwLjEyNSAuICAgICAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAuLi4uLi5cblsyNDcsXSAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuWzI0OCxdIC4gMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgMC4xMjUgLi4uLi4uXG5bMjQ5LF0gLiAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAwLjEyNSAuLi4uLi5cblsyNTAsXSAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuWzI1MSxdIC4gMC4xMjUgLiAgICAgMC4yNTAgMC4xMjUgMC4xMjUgMC4xMjUgMC4yNTAgMC4xMjUgMC4xMjUgLi4uLi4uXG5bMjUyLF0gLiAwLjEyNSAuICAgICAwLjI1MCAwLjEyNSAwLjEyNSAwLjEyNSAwLjI1MCAwLjEyNSAwLjEyNSAuLi4uLi5cblsyNTMsXSAuIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4uLi4uLlxuIn0= -->
-<pre><code>253 x 253 sparse Matrix of class &quot;dgCMatrix&quot;
-                                                                                             
- [1,] 1 . . . . . . . . . . . . . . . . . . . .   .   .   0.5 .   .   .   .   .   .   0.5 .  
- [2,] . 1 . . . . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
- [3,] . . 1 . . . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
- [4,] . . . 1 . . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
- [5,] . . . . 1 . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
- [6,] . . . . . 1 . . . . . . . . . . . . . . 0.5 .   .   .   .   .   .   .   .   .   .   .  
- [7,] . . . . . . 1 . . . . . . . . . . . . . .   0.5 .   0.5 .   0.5 .   0.5 0.5 0.5 0.5 0.5
- [8,] . . . . . . . 1 . . . . . . . . . . . . .   .   0.5 .   .   .   0.5 .   .   .   .   .  
- [9,] . . . . . . . . 1 . . . . . . . . . . . .   .   .   .   0.5 .   .   .   .   .   .   .  
-[10,] . . . . . . . . . 1 . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
-[11,] . . . . . . . . . . 1 . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
-[12,] . . . . . . . . . . . 1 . . . . . . . . .   .   .   .   0.5 .   .   .   .   .   .   .  
-[13,] . . . . . . . . . . . . 1 . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
-[14,] . . . . . . . . . . . . . 1 . . . . . . .   0.5 .   .   .   0.5 .   .   0.5 0.5 .   .  
-[15,] . . . . . . . . . . . . . . 1 . . . . . .   .   0.5 .   .   .   0.5 .   .   .   .   .  
-                    
- [1,] 0.5 0.5 ......
- [2,] .   .   ......
- [3,] .   .   ......
- [4,] .   .   ......
- [5,] .   .   ......
- [6,] .   .   ......
- [7,] 0.5 0.5 ......
- [8,] .   .   ......
- [9,] .   .   ......
-[10,] .   .   ......
-[11,] .   .   ......
-[12,] .   .   ......
-[13,] .   .   ......
-[14,] .   .   ......
-[15,] .   .   ......
+<!-- rnb-output-begin eyJkYXRhIjoiMjUzIHggMjUzIHNwYXJzZSBNYXRyaXggb2YgY2xhc3MgXCJkZ0NNYXRyaXhcIlxuIn0= -->
+<pre><code>253 x 253 sparse Matrix of class &quot;dgCMatrix&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgW1sgc3VwcHJlc3NpbmcgMzQgY29sdW1uIG5hbWVzIOKAmDYwNzDigJksIOKAmDYwNzHigJksIOKAmDYwODbigJkgLi4uIF1dXG4gICBbWyBzdXBwcmVzc2luZyAzNCBjb2x1bW4gbmFtZXMg4oCYNjA3MOKAmSwg4oCYNjA3MeKAmSwg4oCYNjA4NuKAmSAuLi4gXV1cbiJ9 -->
+<pre><code>   [[ suppressing 34 column names ‘6070’, ‘6071’, ‘6086’ ... ]]
+   [[ suppressing 34 column names ‘6070’, ‘6071’, ‘6086’ ... ]]</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbjYwNzAgMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIDAuNSAuICAgLiAgIC4gICAuICAgLiAgIC4gICAwLjUgLiAgXG42MDcxIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gIFxuNjA4NiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcbjYwODggLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG42MDkyIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gIFxuNjMyMyAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gMC41IC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcbjYzMjQgLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gICAwLjUgLiAgIDAuNSAuICAgMC41IC4gICAwLjUgMC41IDAuNSAwLjUgMC41XG42MzI3IC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIDAuNSAuICAgLiAgIC4gICAwLjUgLiAgIC4gICAuICAgLiAgIC4gIFxuNjMyOCAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgLiAgIDAuNSAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcbjY0NDAgLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG42NDQ3IC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gIFxuNjQ0OCAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gLiAgIC4gICAuICAgLiAgIDAuNSAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICBcbjY0NDkgLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgIC4gICAuICAgLiAgXG42NDUwIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAuICAgMC41IC4gICAuICAgLiAgIDAuNSAuICAgLiAgIDAuNSAwLjUgLiAgIC4gIFxuNjQ1NiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gLiAuIC4gMSAuIC4gLiAuIC4gLiAgIC4gICAwLjUgLiAgIC4gICAuICAgMC41IC4gICAuICAgLiAgIC4gICAuICBcbiAgICAgICAgICAgICAgICAgICBcbjYwNzAgMC41IDAuNSAuLi4uLi5cbjYwNzEgLiAgIC4gICAuLi4uLi5cbjYwODYgLiAgIC4gICAuLi4uLi5cbjYwODggLiAgIC4gICAuLi4uLi5cbjYwOTIgLiAgIC4gICAuLi4uLi5cbjYzMjMgLiAgIC4gICAuLi4uLi5cbjYzMjQgMC41IDAuNSAuLi4uLi5cbjYzMjcgLiAgIC4gICAuLi4uLi5cbjYzMjggLiAgIC4gICAuLi4uLi5cbjY0NDAgLiAgIC4gICAuLi4uLi5cbjY0NDcgLiAgIC4gICAuLi4uLi5cbjY0NDggLiAgIC4gICAuLi4uLi5cbjY0NDkgLiAgIC4gICAuLi4uLi5cbjY0NTAgLiAgIC4gICAuLi4uLi5cbjY0NTYgLiAgIC4gICAuLi4uLi5cblxuIC4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLlxuIC4uLi4uLi4uc3VwcHJlc3NpbmcgY29sdW1ucyBhbmQgcm93cyBpbiBzaG93KCk7IG1heWJlIGFkanVzdCAnb3B0aW9ucyhtYXgucHJpbnQ9ICosIHdpZHRoID0gKiknXG4gLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uXG4ifQ== -->
+<pre><code>                                                                                            
+6070 1 . . . . . . . . . . . . . . . . . . . .   .   .   0.5 .   .   .   .   .   .   0.5 .  
+6071 . 1 . . . . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6086 . . 1 . . . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6088 . . . 1 . . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6092 . . . . 1 . . . . . . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6323 . . . . . 1 . . . . . . . . . . . . . . 0.5 .   .   .   .   .   .   .   .   .   .   .  
+6324 . . . . . . 1 . . . . . . . . . . . . . .   0.5 .   0.5 .   0.5 .   0.5 0.5 0.5 0.5 0.5
+6327 . . . . . . . 1 . . . . . . . . . . . . .   .   0.5 .   .   .   0.5 .   .   .   .   .  
+6328 . . . . . . . . 1 . . . . . . . . . . . .   .   .   .   0.5 .   .   .   .   .   .   .  
+6440 . . . . . . . . . 1 . . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6447 . . . . . . . . . . 1 . . . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6448 . . . . . . . . . . . 1 . . . . . . . . .   .   .   .   0.5 .   .   .   .   .   .   .  
+6449 . . . . . . . . . . . . 1 . . . . . . . .   .   .   .   .   .   .   .   .   .   .   .  
+6450 . . . . . . . . . . . . . 1 . . . . . . .   0.5 .   .   .   0.5 .   .   0.5 0.5 .   .  
+6456 . . . . . . . . . . . . . . 1 . . . . . .   .   0.5 .   .   .   0.5 .   .   .   .   .  
+                   
+6070 0.5 0.5 ......
+6071 .   .   ......
+6086 .   .   ......
+6088 .   .   ......
+6092 .   .   ......
+6323 .   .   ......
+6324 0.5 0.5 ......
+6327 .   .   ......
+6328 .   .   ......
+6440 .   .   ......
+6447 .   .   ......
+6448 .   .   ......
+6449 .   .   ......
+6450 .   .   ......
+6456 .   .   ......
 
  ..............................
  ........suppressing columns and rows in show(); maybe adjust 'options(max.print= *, width = *)'
- ..............................
-
-                                                                                              
-[240,] . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
-[241,] . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
-[242,] . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
-[243,] . . .    . . 0.25 .    0.25 . . . . 0.25 . . 0.25 . .    .    . 0.250 .     0.125 .    
-[244,] . . .    . . 0.25 .    0.25 . . . . 0.25 . . 0.25 . .    .    . 0.250 .     0.125 .    
-[245,] . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . .    0.25 . 0.125 0.125 .     0.125
-[246,] . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . .    0.25 . 0.125 0.125 .     0.125
-[247,] . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
-[248,] . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
-[249,] . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
-[250,] . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
-[251,] . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
-[252,] . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
-[253,] . . .    . . .    .    .    . . . . .    . . .    . .    .    . .     .     .     .    
-                                                                     
-[240,] . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[241,] . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
-[242,] . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
-[243,] . .     0.125 .     .     .     .     .     .     .     ......
-[244,] . .     0.125 .     .     .     .     .     .     .     ......
-[245,] . 0.125 .     0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[246,] . 0.125 .     0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[247,] . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[248,] . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[249,] . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[250,] . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
-[251,] . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
-[252,] . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
-[253,] . .     .     .     .     .     .     .     .     .     ......</code></pre>
+ ..............................</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgW1sgc3VwcHJlc3NpbmcgMzQgY29sdW1uIG5hbWVzIOKAmDYwNzDigJksIOKAmDYwNzHigJksIOKAmDYwODbigJkgLi4uIF1dXG4ifQ== -->
+<pre><code>   [[ suppressing 34 column names ‘6070’, ‘6071’, ‘6086’ ... ]]</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcbjIxNTQgLiAuIC4gICAgLiAuIC4gICAgMC4yNSAwLjI1IC4gLiAuIC4gMC4yNSAuIC4gLiAgICAuIC4gICAgMC4yNSAuIC4gICAgIDAuMTI1IDAuMTI1IDAuMTI1XG4yMTY0IC4gLiAwLjI1IC4gLiAwLjI1IDAuMjUgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAwLjI1IC4gICAgLiAwLjEyNSAwLjEyNSAuICAgICAwLjEyNVxuMjE2OCAuIC4gMC4yNSAuIC4gMC4yNSAwLjI1IC4gICAgLiAuIC4gLiAuICAgIC4gLiAuICAgIC4gMC4yNSAuICAgIC4gMC4xMjUgMC4xMjUgLiAgICAgMC4xMjVcbjIxOTUgLiAuIC4gICAgLiAuIDAuMjUgLiAgICAwLjI1IC4gLiAuIC4gMC4yNSAuIC4gMC4yNSAuIC4gICAgLiAgICAuIDAuMjUwIC4gICAgIDAuMTI1IC4gICAgXG4yMTk3IC4gLiAuICAgIC4gLiAwLjI1IC4gICAgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIDAuMjUgLiAuICAgIC4gICAgLiAwLjI1MCAuICAgICAwLjEyNSAuICAgIFxuMjIyOSAuIC4gMC4yNSAuIC4gMC4yNSAwLjI1IC4gICAgLiAuIC4gLiAuICAgIC4gLiAuICAgIC4gLiAgICAwLjI1IC4gMC4xMjUgMC4xMjUgLiAgICAgMC4xMjVcbjIyMzEgLiAuIDAuMjUgLiAuIDAuMjUgMC4yNSAuICAgIC4gLiAuIC4gLiAgICAuIC4gLiAgICAuIC4gICAgMC4yNSAuIDAuMTI1IDAuMTI1IC4gICAgIDAuMTI1XG4yMjYxIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuMjI2MyAuIC4gLiAgICAuIC4gLiAgICAwLjI1IDAuMjUgLiAuIC4gLiAwLjI1IC4gLiAuICAgIC4gLiAgICAwLjI1IC4gLiAgICAgMC4xMjUgMC4xMjUgMC4xMjVcbjIyOTcgLiAuIC4gICAgLiAuIC4gICAgMC4yNSAwLjI1IC4gLiAuIC4gMC4yNSAuIC4gLiAgICAuIC4gICAgMC4yNSAuIC4gICAgIDAuMTI1IDAuMTI1IDAuMTI1XG4yMzAzIC4gLiAuICAgIC4gLiAuICAgIDAuMjUgMC4yNSAuIC4gLiAuIDAuMjUgLiAuIC4gICAgLiAuICAgIDAuMjUgLiAuICAgICAwLjEyNSAwLjEyNSAwLjEyNVxuMjMxMSAuIC4gMC4yNSAuIC4gMC4yNSAwLjI1IC4gICAgLiAuIC4gLiAuICAgIC4gLiAuICAgIC4gMC4yNSAuICAgIC4gMC4xMjUgMC4xMjUgLiAgICAgMC4xMjVcbjIzMTcgLiAuIDAuMjUgLiAuIDAuMjUgMC4yNSAuICAgIC4gLiAuIC4gLiAgICAuIC4gLiAgICAuIDAuMjUgLiAgICAuIDAuMTI1IDAuMTI1IC4gICAgIDAuMTI1XG40NzQgIC4gLiAuICAgIC4gLiAuICAgIC4gICAgLiAgICAuIC4gLiAuIC4gICAgLiAuIC4gICAgLiAuICAgIC4gICAgLiAuICAgICAuICAgICAuICAgICAuICAgIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFxuMjE1NCAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjE2NCAuIDAuMTI1IC4gICAgIDAuMjUwIDAuMTI1IDAuMTI1IDAuMTI1IDAuMjUwIDAuMTI1IDAuMTI1IC4uLi4uLlxuMjE2OCAuIDAuMTI1IC4gICAgIDAuMjUwIDAuMTI1IDAuMTI1IDAuMTI1IDAuMjUwIDAuMTI1IDAuMTI1IC4uLi4uLlxuMjE5NSAuIC4gICAgIDAuMTI1IC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4uLi4uLlxuMjE5NyAuIC4gICAgIDAuMTI1IC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4uLi4uLlxuMjIyOSAuIDAuMTI1IC4gICAgIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjIzMSAuIDAuMTI1IC4gICAgIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjI2MSAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjI2MyAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjI5NyAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjMwMyAuIDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IDAuMTI1IC4uLi4uLlxuMjMxMSAuIDAuMTI1IC4gICAgIDAuMjUwIDAuMTI1IDAuMTI1IDAuMTI1IDAuMjUwIDAuMTI1IDAuMTI1IC4uLi4uLlxuMjMxNyAuIDAuMTI1IC4gICAgIDAuMjUwIDAuMTI1IDAuMTI1IDAuMTI1IDAuMjUwIDAuMTI1IDAuMTI1IC4uLi4uLlxuNDc0ICAuIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4gICAgIC4uLi4uLlxuIn0= -->
+<pre><code>                                                                                            
+2154 . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
+2164 . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
+2168 . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
+2195 . . .    . . 0.25 .    0.25 . . . . 0.25 . . 0.25 . .    .    . 0.250 .     0.125 .    
+2197 . . .    . . 0.25 .    0.25 . . . . 0.25 . . 0.25 . .    .    . 0.250 .     0.125 .    
+2229 . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . .    0.25 . 0.125 0.125 .     0.125
+2231 . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . .    0.25 . 0.125 0.125 .     0.125
+2261 . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
+2263 . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
+2297 . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
+2303 . . .    . . .    0.25 0.25 . . . . 0.25 . . .    . .    0.25 . .     0.125 0.125 0.125
+2311 . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
+2317 . . 0.25 . . 0.25 0.25 .    . . . . .    . . .    . 0.25 .    . 0.125 0.125 .     0.125
+474  . . .    . . .    .    .    . . . . .    . . .    . .    .    . .     .     .     .    
+                                                                   
+2154 . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2164 . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
+2168 . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
+2195 . .     0.125 .     .     .     .     .     .     .     ......
+2197 . .     0.125 .     .     .     .     .     .     .     ......
+2229 . 0.125 .     0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2231 . 0.125 .     0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2261 . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2263 . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2297 . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2303 . 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 ......
+2311 . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
+2317 . 0.125 .     0.250 0.125 0.125 0.125 0.250 0.125 0.125 ......
+474  . .     .     .     .     .     .     .     .     .     ......</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -611,14 +622,29 @@ clang -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -si
 * DONE (BALD)</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Ok, now we can start to use BALD for obtain the LD based window</p>
+<!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShCQUxEKVxubWFwPU1TVVBSUF9zYW1wbGUkbWFwXG5pPTFcbmlpPXdoaWNoKG1hcCRjaHI9PWkpXG5jaHI9Z2Vub1ssaWldXG5aPWNocisxXG5wPWRpbShaKVsyXVxuI2NXIDwtIGNXYXJkKFosIGg9cC0xLCBzaW09c2ltUjIsIGhlYXBzPVRSVUUpXG5nYXBTIDwtIGdhcFN0YXRpc3RpYyhaLCBtaW4ubmM9MiwgbWF4Lm5jPXAtMSwgQj01MClcbmBgYCJ9 -->
+<pre class="r"><code>library(BALD)
+map=MSUPRP_sample$map
+i=1
+ii=which(map$chr==i)
+chr=geno[,ii]
+Z=chr+1
+p=dim(Z)[2]
+#cW &lt;- cWard(Z, h=p-1, sim=simR2, heaps=TRUE)
+gapS &lt;- gapStatistic(Z, min.nc=2, max.nc=p-1, B=50)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>Let’s then re-load the file we computed on HPC</p>
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJlLXByb2Nlc3MgTVNVUFJQIHNhbXBsZSBkYXRhIGZvciBCQVRvb2xzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIEluZm9ybWF0aW9uIGFib3V0IHRoZSBkYXRhc2V0CgpUaGUgZGF0YSBjb21lcyBmcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9zdGVpYmVsai9nd2FSLCBhbiBleGFtcGxlIGRhdGFzZXQgZm9yIGd3YXMgc3R1ZHkgZm9yIE1TVVBSUCBkYXRhc2V0LiBUaGUgY29tcGxldGUgZGF0YXNldCBjYW4gYmUgYWxzbyBmb3VuZCBhdCBodHRwczovL2dpdGh1Yi5jb20vc3RlaWJlbGovR1dBX2dyb3d0aC4KClRoZSBkYXRhc2V0IGNvbWVzIGFzIGBncERhdGFgIGZyb20gdGhlIGBzeW5icmVlZGAgUiBwYWNrYWdlLgoKVGhpcyBleGFtcGxlIHdpbGwgZGVtb25zdHJhdGUgaG93IHRvIGNyZWF0ZSBwZWRpZ3JlZSBiYXNlZCByZWxhdGlvbnNoaXAgbWF0cml4IGFuZCBhZGFwdGl2ZSB3aW5kb3cgYmFzZWQgTEQgZnJvbSB0aGUgZGF0YXNldC4KCkZpbmFsbHksIHdlJ2xsIGNyZWF0ZSB0aGUgZGF0YSBmaWxlIGZvciBCQVRvb2xzLgoKIyMjIDAuIEJlZm9yZSB5b3Ugc3RhcnQKTWFrZSBzdXJlIHlvdSBoYXZlIHRoZSBmb2xsb3dpbmcgUiBwYWNrYWdlIGluc3RhbGxlZDogYGRwbHlyYCxgTUNNQ2dsbW1gLCBgTWF0cml4YAoKCiMjIyAxLiBFeHBsb3JlIHRoZSBkYXRhIAoKYGBge3J9CmxvYWQoIk1TVVBSUF9zYW1wbGUuUkRhdGEiKQpjbGFzcyhNU1VQUlBfc2FtcGxlKQpzdHIoTVNVUFJQX3NhbXBsZSkKYGBgCgojIyMgMi4gTWVyZ2UgcGhlbm90eXBlIGFuZCBjb3ZhciB0byBhIGRhdGFmcmFtZQpDb21tb25seSwgdXNpbmcgZGF0YWZyYW1lIG9yIGRhdGF0YWJsZSB0byBtYW5hZ2UgYWxsIHBoZW5vdHlwZXMgYXJlIGVhc2llci4gU28gd2UnbGwgbWVyZ2UgdGhlIHR3byB0b2dldGhlcgpgYGB7cn0KbGlicmFyeShkcGx5cikKdG1wPC1kYXRhLmZyYW1lKE1TVVBSUF9zYW1wbGUkcGhlbm8pCnRtcCRpZDwtcm93bmFtZXModG1wKQpjb2xuYW1lcyh0bXApPWMoInBoXzI0aCIsIiB0ZW1wXzI0aCIsImRyaXBsb3NzIiwiaWQiKQpwaGVubzwtbGVmdF9qb2luKHRtcCxNU1VQUlBfc2FtcGxlJGNvdmFyLGJ5PSJpZCIpCmhlYWQocGhlbm8pCmBgYAoKCiMjIyAzLiBDaGVjayBnZW5vdHlwZSBtYXRyaXgKYGBge3J9Cmdlbm88LU1TVVBSUF9zYW1wbGUkZ2VubwpkaW0oZ2VubykKZ2Vub1sxOjUsMToxMF0KYGBgCgpJbiBCQVRvb2xzLCB0aGUgYGlkYCB3aWxsIGJlIG1hdGNoZWQgd2l0aCB0aGUgYGNvbG5hbWVgIG9mIHRoZSBnZW5vdHlwZSBtYXRyaXgsIG1ha2Ugc3VyZSB5b3UgaGF2ZSBnZW5vdHlwZSBmb3IgYWxsIHRoZSBpbmRpdmlkdWFscyB1bmxlc3MgeW91J3JlIHVzaW5nIHNpbmdsZS1zdGVwIGFwcHJvYWNoLgoKYGBge3J9Cmdlbm9mMDwtZ2Vub1t3aGljaChhcy5udW1lcmljKHJvd25hbWVzKGdlbm8pKT42MDAwKSxdCmRpbShnZW5vZjApCm1hZi5mMDwtY29sTWVhbnMoZ2Vub2YwLG5hLnJtID0gVCkvMgpzdW1tYXJ5KG1hZi5mMCkKYGBgCgoKIyMjIDQuIENyZWF0ZSBwZWRpZ3JlZSBiYXNlZCBhZGRpdGl2ZSBnZW5vbWljIHJlbGF0aW9uc2hpcCBtYXRyaXgKYGBge3J9CnBlZDwtTVNVUFJQX3NhbXBsZSRwZWRpZ3JlZQpoZWFkKHBlZCkKYGBgCgpgYGB7cn0KI3NvdXJjZSgidG9vbHMuUiIpCmxpYnJhcnkocGVkaWdyZWUpCmNvbG5hbWVzKHBlZCk9YygiaWQiLCJmYXRoZXIiLCJtb3RoZXIiLCJnZW5lcmF0aW9uIiwic2V4IikKcGVkMD1QZWRpZ3JlZShwZWQsdW5rbm93biA9IDApCkFpbnY8LU1DTUNnbG1tOjppbnZlcnNlQShwZWRpZ3JlZT1wZWQwWywxOjNdLG5vZGVzPSJBTEwiKSRBaW52CkE9TWF0cml4Ojpzb2x2ZShBaW52LHNwYXJzZT1UUlVFLHRvbD0xZS0xNikKQVt3aGljaChBPDFlLTYpXT0wCkEKYGBgCgoKIyMjIEJ1aWxkaW5nIG1hcCB3aXRoIGFkYXB0aXZlIHdpbmRvdyBiYXNlZCBvbiBMRApgYGB7cn0KbWFwPC1NU1VQUlBfc2FtcGxlJG1hcApoZWFkKG1hcCkKYGBgCgpJbnN0YWxsIGBCQUxEYCBwYWNrYWdlIGZyb20gaHR0cDovL3d3dy5tYXRoLWV2cnkuY25ycy5mci9sb2dpY2llbHMvYmFsZC4gT24gd2luZG93cywgYFJUb29sc2AgbmVlZCB0byBiZSBwcmUtaW5zdGFsbGVkIGh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL2Jpbi93aW5kb3dzL1J0b29scy8gYW5kIGFkZCB5b3VyIGBSVG9vbHNgIHBhdGggdG8gZW52aXJvbWVudCB2YXJpYWJsZS4gQnV0IGxpbnV4IG9yIE1hYyBhcmUgcmVjb21tZW5kZWQgc2luY2UgYEJBTERgIGlzIG5vdCBhdmFpbGFibGUgYXQgQ1JBTi4gCgpJbnN0YWxsaW5nIHRoZXNlIHBhY2thZ2VzIGNhbiBiZSBjb21wbGljYXRlZCwgaWYgeW91IGhhdmUgYW55IHF1ZXN0aW9uLCBzZW5kIG1lIGFuIGVtYWlsIGF0IGNoZW5jaDU3e2F0fW1zdS5lZHUKCmBgYHtyfQpzb3VyY2UoImh0dHBzOi8vYmlvY29uZHVjdG9yLm9yZy9iaW9jTGl0ZS5SIikKYmlvY0xpdGUoImNob3BzdGlja3MiKQpiaW9jTGl0ZSgic25wU3RhdHMiKQpiaW9jTGl0ZSgiUk9DIikKaW5zdGFsbC5wYWNrYWdlcyhjKCJMRGhlYXRtYXAiLCJxdWFkcnVwZW4iLCAiUk9DIiwgImdycGxhc3NvIiwic25wU3RhdHMiKSkKc3lzdGVtKCJ3Z2V0IGh0dHA6Ly93d3cubWF0aC1ldnJ5LmNucnMuZnIvX21lZGlhL2xvZ2ljaWVscy9iYWxkXzAuMi4xLnRhci5neiIpCnN5c3RlbSgiUiBDTUQgSU5TVEFMTCBiYWxkXzAuMi4xLnRhci5neiIpCmBgYApgYGB7cn0KCmBgYAoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJlLXByb2Nlc3MgTVNVUFJQIHNhbXBsZSBkYXRhIGZvciBCQVRvb2xzIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIEluZm9ybWF0aW9uIGFib3V0IHRoZSBkYXRhc2V0CgpUaGUgZGF0YSBjb21lcyBmcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9zdGVpYmVsai9nd2FSLCBhbiBleGFtcGxlIGRhdGFzZXQgZm9yIGd3YXMgc3R1ZHkgZm9yIE1TVVBSUCBkYXRhc2V0LiBUaGUgY29tcGxldGUgZGF0YXNldCBjYW4gYmUgYWxzbyBmb3VuZCBhdCBodHRwczovL2dpdGh1Yi5jb20vc3RlaWJlbGovR1dBX2dyb3d0aC4KClRoZSBkYXRhc2V0IGNvbWVzIGFzIGBncERhdGFgIGZyb20gdGhlIGBzeW5icmVlZGAgUiBwYWNrYWdlLgoKVGhpcyBleGFtcGxlIHdpbGwgZGVtb25zdHJhdGUgaG93IHRvIGNyZWF0ZSBwZWRpZ3JlZSBiYXNlZCByZWxhdGlvbnNoaXAgbWF0cml4IGFuZCBhZGFwdGl2ZSB3aW5kb3cgYmFzZWQgTEQgZnJvbSB0aGUgZGF0YXNldC4KCkZpbmFsbHksIHdlJ2xsIGNyZWF0ZSB0aGUgZGF0YSBmaWxlIGZvciBCQVRvb2xzLgoKIyMjIDAuIEJlZm9yZSB5b3Ugc3RhcnQKTWFrZSBzdXJlIHlvdSBoYXZlIHRoZSBmb2xsb3dpbmcgUiBwYWNrYWdlIGluc3RhbGxlZDogYGRwbHlyYCxgTUNNQ2dsbW1gLCBgTWF0cml4YAoKCiMjIyAxLiBFeHBsb3JlIHRoZSBkYXRhIAoKYGBge3J9CmxvYWQoIk1TVVBSUF9zYW1wbGUuUkRhdGEiKQpjbGFzcyhNU1VQUlBfc2FtcGxlKQpzdHIoTVNVUFJQX3NhbXBsZSkKYGBgCgojIyMgMi4gTWVyZ2UgcGhlbm90eXBlIGFuZCBjb3ZhciB0byBhIGRhdGFmcmFtZQpDb21tb25seSwgdXNpbmcgZGF0YWZyYW1lIG9yIGRhdGF0YWJsZSB0byBtYW5hZ2UgYWxsIHBoZW5vdHlwZXMgYXJlIGVhc2llci4gU28gd2UnbGwgbWVyZ2UgdGhlIHR3byB0b2dldGhlcgpgYGB7cn0KbGlicmFyeShkcGx5cikKdG1wPC1kYXRhLmZyYW1lKE1TVVBSUF9zYW1wbGUkcGhlbm8pCnRtcCRpZDwtcm93bmFtZXModG1wKQpjb2xuYW1lcyh0bXApPWMoInBoXzI0aCIsIiB0ZW1wXzI0aCIsImRyaXBsb3NzIiwiaWQiKQpwaGVubzwtbGVmdF9qb2luKHRtcCxNU1VQUlBfc2FtcGxlJGNvdmFyLGJ5PSJpZCIpCmhlYWQocGhlbm8pCmBgYAoKCiMjIyAzLiBDaGVjayBnZW5vdHlwZSBtYXRyaXgKYGBge3J9Cmdlbm88LU1TVVBSUF9zYW1wbGUkZ2VubwpkaW0oZ2VubykKZ2Vub1sxOjUsMToxMF0KYGBgCgpJbiBCQVRvb2xzLCB0aGUgYGlkYCB3aWxsIGJlIG1hdGNoZWQgd2l0aCB0aGUgYGNvbG5hbWVgIG9mIHRoZSBnZW5vdHlwZSBtYXRyaXgsIG1ha2Ugc3VyZSB5b3UgaGF2ZSBnZW5vdHlwZSBmb3IgYWxsIHRoZSBpbmRpdmlkdWFscyB1bmxlc3MgeW91J3JlIHVzaW5nIHNpbmdsZS1zdGVwIGFwcHJvYWNoLgoKYGBge3J9Cmdlbm9mMDwtZ2Vub1t3aGljaChhcy5udW1lcmljKHJvd25hbWVzKGdlbm8pKT42MDAwKSxdCmRpbShnZW5vZjApCm1hZi5mMDwtY29sTWVhbnMoZ2Vub2YwLG5hLnJtID0gVCkvMgpzdW1tYXJ5KG1hZi5mMCkKYGBgCgoKIyMjIDQuIENyZWF0ZSBwZWRpZ3JlZSBiYXNlZCBhZGRpdGl2ZSBnZW5vbWljIHJlbGF0aW9uc2hpcCBtYXRyaXgKYGBge3J9CnBlZDwtTVNVUFJQX3NhbXBsZSRwZWRpZ3JlZQpoZWFkKHBlZCkKYGBgCgpgYGB7cn0Kc291cmNlKCJ0b29scy5SIikKbGlicmFyeShwZWRpZ3JlZSkKY29sbmFtZXMocGVkKT1jKCJpZCIsImZhdGhlciIsIm1vdGhlciIsImdlbmVyYXRpb24iLCJzZXgiKQpwZWQwPVBlZGlncmVlKHBlZCx1bmtub3duID0gMCkKQWludjwtTUNNQ2dsbW06OmludmVyc2VBKHBlZGlncmVlPXBlZDBbLDE6M10sbm9kZXM9IkFMTCIpJEFpbnYKQT1NYXRyaXg6OnNvbHZlKEFpbnYsc3BhcnNlPVRSVUUsdG9sPTFlLTE2KQpBW3doaWNoKEE8MWUtNildPTAKY29sbmFtZXMoQSk9cm93bmFtZXMoQSk9cGVkMCRpZApBCmBgYAoKCiMjIyBCdWlsZGluZyBtYXAgd2l0aCBhZGFwdGl2ZSB3aW5kb3cgYmFzZWQgb24gTEQKYGBge3J9Cm1hcDwtTVNVUFJQX3NhbXBsZSRtYXAKaGVhZChtYXApCmBgYAoKSW5zdGFsbCBgQkFMRGAgcGFja2FnZSBmcm9tIGh0dHA6Ly93d3cubWF0aC1ldnJ5LmNucnMuZnIvbG9naWNpZWxzL2JhbGQuIE9uIHdpbmRvd3MsIGBSVG9vbHNgIG5lZWQgdG8gYmUgcHJlLWluc3RhbGxlZCBodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy9iaW4vd2luZG93cy9SdG9vbHMvIGFuZCBhZGQgeW91ciBgUlRvb2xzYCBwYXRoIHRvIGVudmlyb21lbnQgdmFyaWFibGUuIEJ1dCBsaW51eCBvciBNYWMgYXJlIHJlY29tbWVuZGVkIHNpbmNlIGBCQUxEYCBpcyBub3QgYXZhaWxhYmxlIGF0IENSQU4uIAoKSW5zdGFsbGluZyB0aGVzZSBwYWNrYWdlcyBjYW4gYmUgY29tcGxpY2F0ZWQsIGlmIHlvdSBoYXZlIGFueSBxdWVzdGlvbiwgc2VuZCBtZSBhbiBlbWFpbCBhdCBjaGVuY2g1N3thdH1tc3UuZWR1CgpgYGB7cn0Kc291cmNlKCJodHRwczovL2Jpb2NvbmR1Y3Rvci5vcmcvYmlvY0xpdGUuUiIpCmJpb2NMaXRlKCJjaG9wc3RpY2tzIikKYmlvY0xpdGUoInNucFN0YXRzIikKYmlvY0xpdGUoIlJPQyIpCmluc3RhbGwucGFja2FnZXMoYygiTERoZWF0bWFwIiwicXVhZHJ1cGVuIiwgIlJPQyIsICJncnBsYXNzbyIsInNucFN0YXRzIikpCnN5c3RlbSgid2dldCBodHRwOi8vd3d3Lm1hdGgtZXZyeS5jbnJzLmZyL19tZWRpYS9sb2dpY2llbHMvYmFsZF8wLjIuMS50YXIuZ3oiKQpzeXN0ZW0oIlIgQ01EIElOU1RBTEwgYmFsZF8wLjIuMS50YXIuZ3oiKQpgYGAKCk9rLCBub3cgd2UgY2FuIHN0YXJ0IHRvIHVzZSBCQUxEIGZvciBvYnRhaW4gdGhlIExEIGJhc2VkIHdpbmRvdwpgYGB7cn0KbGlicmFyeShCQUxEKQptYXA9TVNVUFJQX3NhbXBsZSRtYXAKY2hycz1saXN0KCkKZm9yKGkgaW4gMTptYXgobWFwJGNocikpewogIGlpPXdoaWNoKG1hcCRjaHI9PWkpCiAgY2hyc1tbaV1dPWdlbm9bLGlpXQp9CgojVGhpcyB3aWxsIHRha2UgY291cGxlIGhvdXJzLCBzdWdnZXN0IHlvdSBydW4gaXQgaW4gcGFyYWxsZWwgaW4gaGlnaC1wZXJmb3JtYW5jZSBjb21wdXRpbmcgKEhQQykgcGxhdGZvcm0sIHdoaWNoIHdhcyB3aGF0IEkgZGlkLiAKZm9yKGkgaW4gMTpsZW5ndGgoY2hycykpewogIFo9Y2hyW1tpXV0rMQogIHA9ZGltKFopWzJdCiAgZ2FwUyA8LSBnYXBTdGF0aXN0aWMoWiwgbWluLm5jPTIsIG1heC5uYz1wLTEsIEI9NTApCiAgZ2FwUyRiZXN0LmsKICBhZGFwdGl2ZVdpbmRvd3NbW2ldXSA8LSBjdXRyZWUoZ2FwUyR0cmVlLCBnYXBTJGJlc3QuaykKfQoKI0FmdGVyIHJ1bm5pbmcgdGhpcyB0aHJvdWd0aCwgSSBzYXZlIHRoZSBmaWxlIGluIGBiYWxkLlJEYXRhYApgYGAKCkxldCdzIHRoZW4gcmUtbG9hZCB0aGUgZmlsZSB3ZSBjb21wdXRlZCBvbiBIUEMK</div>
 
 
 
