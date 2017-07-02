@@ -49,8 +49,8 @@ In BATools, the `id` will be matched with the `colname` of the genotype matrix, 
 ```{r}
 genof0<-geno[which(as.numeric(rownames(geno))>6000),]
 dim(genof0)
-maf.f0<-colMeans(genof0,na.rm = T)/2
-summary(maf.f0)
+freq.f0<-colMeans(genof0,na.rm = T)/2
+summary(freq.f0)
 ```
 
 
@@ -84,16 +84,16 @@ Install `BALD` package from http://www.math-evry.cnrs.fr/logiciels/bald. On wind
 Installing these packages can be complicated, if you have any question, send me an email at chench57{at}msu.edu
 
 ```{r}
-source("https://bioconductor.org/biocLite.R")
-biocLite("chopsticks")
-biocLite("snpStats")
-biocLite("ROC")
-install.packages(c("LDheatmap","quadrupen", "ROC", "grplasso","snpStats"))
-system("wget http://www.math-evry.cnrs.fr/_media/logiciels/bald_0.2.1.tar.gz")
-system("R CMD INSTALL bald_0.2.1.tar.gz")
+#source("https://bioconductor.org/biocLite.R")
+#biocLite("chopsticks")
+#biocLite("snpStats")
+#biocLite("ROC")
+#install.packages(c("LDheatmap","quadrupen", "ROC", "grplasso","snpStats"))
+#system("wget http://www.math-evry.cnrs.fr/_media/logiciels/bald_0.2.1.tar.gz")
+#system("R CMD INSTALL bald_0.2.1.tar.gz")
 ```
 
-Ok, now we can start to use BALD for obtain the LD based window
+Ok, now we can start to use BALD for obtain the LD based window for each chromosome
 ```{r}
 library(BALD)
 map=MSUPRP_sample$map
@@ -104,6 +104,8 @@ for(i in 1:max(map$chr)){
 }
 
 #This will take couple hours, suggest you run it in parallel in high-performance computing (HPC) platform, which was what I did. 
+if(F){
+adaptiveWindows=list()
 for(i in 1:length(chrs)){
   Z=chr[[i]]+1
   p=dim(Z)[2]
@@ -111,8 +113,32 @@ for(i in 1:length(chrs)){
   gapS$best.k
   adaptiveWindows[[i]] <- cutree(gapS$tree, gapS$best.k)
 }
-
+}
 #After running this througth, I save the file in `bald.RData`
 ```
 
 Let's then re-load the file we computed on HPC
+```{r}
+load("bald.RData")
+idw<-adaptiveWindows[[1]]
+for(i in 2:length(adaptiveWindows)){
+  tmp<-max(idw)
+  idw<-c(idw,adaptiveWindows[[i]]+tmp)
+}
+map$idw=idw
+```
+
+Now let's save all the files
+```{r}
+PigA<-A
+PigAinv<-Ainv
+PigM<-geno
+PigMap<-map
+PigPheno<-pheno %>% 
+          filter(!is.na(phenotyped)) %>% 
+          dplyr::select(driploss,id,sex,litter,slgdt_cd,age_slg,car_wt)
+PigPed<-ped0
+PigAlleleFreq<-freq.f0
+save(PigA,PigAinv,PigM,PigMap,PigPheno,PigPed,PigAlleleFreq,file="Pig.RData")
+```
+
